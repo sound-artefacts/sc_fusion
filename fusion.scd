@@ -28,14 +28,14 @@ s.waitForBoot{
 
 {
 var signal,wt;
-		signal=Env([10,1000,100],[1,10],[16,16]);
+		signal=Env([1000,10],[1],[16.neg]);
 	wt = signal.asSignal(1024).asWavetable;
 ~scale2.loadCollection(wt);
 //signal.plot;
 		}.value;
 		{
 var signal,wt;
-		signal=Env([1,100,10],[1,10],[8,8]);
+		signal=Env([100,10],[1],[16.neg]);
 	wt = signal.asSignal(1024).asWavetable;
 ~scale1.loadCollection(wt);
 //signal.plot;
@@ -43,7 +43,7 @@ var signal,wt;
 
 	{
 var signal,wt;
-signal=Env([(pi/8)-((pi/8)/((1+5.sqrt)/2)),2pi-(2pi/((1+5.sqrt)/2))],[8]);
+		signal=Env([((2pi/128)/((1+5.sqrt)/2)),2pi-(2pi/((1+5.sqrt)/2))],[1],[16]);
 	wt = signal.asSignal(1024).asWavetable;
 ~rotation.loadCollection(wt);
 //signal.plot;
@@ -77,7 +77,7 @@ var signal,wt;
 (
 SynthDef.new(\player,{
 			arg ml=1;
-			var hz=0.01;
+			var hz=0.05;
 
 	Out.kr(~controlBus1.index, (Osc.kr(~scale1.bufnum,hz*ml).abs));
 	Out.kr(~controlBus2.index, (Osc.kr(~scale2.bufnum,hz*ml).abs));
@@ -88,7 +88,7 @@ SynthDef.new(\player,{
 
 
 }).add;
-	);~count=[2,1,2,2,2,2];
+	);~count=[3,5,2,2,2,2];
 	(
 ~bspeed=1;
  ~bfreq=2;
@@ -609,7 +609,8 @@ az6=0;el6=0;
 	pla=pla+1;
 			//mk=(mk+(1-(1/1.6180339887499))).wrap(0,1);
 			//sph=Spherical(perspective*scale*mag,az,el).asCartesian.asArray;
-		sph=Spherical(scale*mag,az,el).asCartesian.asArray;
+			sph=Spherical(scale*mag,az,el.wrap((pi/8).neg,(pi/8))).asCartesian;
+			sph=sph.rotateYZ(0.5pi).asArray;
 };
 	//mk=(mk+(1200-(1200/1.6180339887499))).wrap(0,1200);
 	data =data++dota;
@@ -637,7 +638,7 @@ r.play;
 
 		//b.symbolColor = Color.new(red:temp,blue:temp,green:temp);
 		//a.symbolColor =Color.new(red:temp,blue:temp,green:temp);
-   a.rot(pi/8,ot,0);
+   a.rot(0.25pi,ot,0);
 		// b.rot(ott,ott,ott);
 				~r1=ot; ~r2=ot; ~r3=ot;
 
