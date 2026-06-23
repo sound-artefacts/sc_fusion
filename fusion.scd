@@ -31,14 +31,14 @@ var signal,wt;
 		signal=Env([1000,10],[1],[16.neg]);
 	wt = signal.asSignal(1024).asWavetable;
 ~scale2.loadCollection(wt);
-//signal.plot;
+signal.plot;
 		}.value;
 		{
 var signal,wt;
 		signal=Env([100,10],[1],[16.neg]);
 	wt = signal.asSignal(1024).asWavetable;
 ~scale1.loadCollection(wt);
-//signal.plot;
+signal.plot;
 		}.value;
 
 	{
@@ -46,7 +46,7 @@ var signal,wt;
 		signal=Env([((2pi/128)/((1+5.sqrt)/2)),2pi-(2pi/((1+5.sqrt)/2))],[1],[16]);
 	wt = signal.asSignal(1024).asWavetable;
 ~rotation.loadCollection(wt);
-//signal.plot;
+signal.plot;
 		}.value;
 
 	/*{
@@ -88,16 +88,11 @@ SynthDef.new(\player,{
 
 
 }).add;
-	);~count=[3,5,2,2,2,2];
-	(
-~bspeed=1;
- ~bfreq=2;
-~bamp=3;
-);
+	);
+
+	~count=[3,5,2,2,2,2];
 }
 )
-
-~hz.set(\ml,0.01);
 
 //Server.freeAll
 //smoothing
@@ -133,7 +128,7 @@ var theta,phi ,wave;
 	~az=[];~el=[];~magx=[];~magy=[];~magz=[];~qx=[]; ~cart=[];      ~detune=1;
 //	spread = if(m_z < 1) { 1 / m_z } { m_z };
 ~hz=Synth.new(\player);
-~hz.set(\hz,0.1);
+//~hz.set(\ml,0.1);
 data = [];
 Window.free;
 ~w = Window.new("3D Scatterplot", Rect(40,40, 1800, 1000)).front;
@@ -144,21 +139,11 @@ a.drawMethod = \fillRect;
 a.symbolSize = 2;
 a.symbolColor = Color.white;
 a.background = Color.clear;
-/*b = ScatterView3d(~v, Rect(0,0, 1800,1000), ~data, [-4000, 4000].asSpec,[-4000, 4000].asSpec,[-4000, 4000].asSpec);
+/*b = ScatterView3d(~v, Rect(0,0, 1800,1000), ~data, [-5000, 5000].asSpec,[-5000, 5000].asSpec,[-5000, 5000].asSpec);
 b.drawMethod = \fillRect;
 b.symbolSize = 2;
 b.symbolColor = Color.white;
 b.background = Color.clear;*/
-/*Slider(~w, Rect(1600, 10, 10, 450)).action_{|me|
- a.rotY = me.value * 2pi;
- ~w.refresh;};
-Slider(~w, Rect(1650, 10, 10, 450)).action_{|me|
- a.rotX = me.value * 2pi;
- ~w.refresh;};
-Slider(~w, Rect(1700, 10, 10, 450)).action_{|me|
- a.rotZ = me.value * 2pi;
- ~w.refresh;
-};*/
 
   r= Routine({loop{
 
@@ -648,29 +633,17 @@ r.play;
     ~cart = data.collect{|p|
 
         var x=p[0], y=p[1], z=p[2];
-        var rx,ry,rz;
+        var rx,ry,rz,point;
 
-        // rotate X
-		ry = (y*cos(ot)) - (z*sin(ot));
-		rz = (y*sin(ot) )+ (z*cos(ot));
-        y = ry; z = rz;
+point=Cartesian(x,y,z).rotateYZ(0.25pi);
+point=Cartesian(x,y,z).rotateXZ(ot);
 
-        // rotate Y
-		rx = (x*cos(ot)) + (z*sin(ot));
-		rz =( x.neg*sin(ot)) + (z*cos(ot));
-        x = rx; z = rz;
+     ~cart=[point.x,point.y,point.z];
 
-        // rotate Z
-		rx = (x*cos(ot)) -(y*sin(ot));
-		ry = (x*sin(ot)) + (y*cos(ot));
-        x = rx; y = ry;
-
-        [x,y,z];
-			//Cartesian(x,y,x).rho.postln;
     };
-
+~cart.postln;
 };
-//{ while { run } {~v.background_(Color.black); ~v.refresh; (1/100).wait } }.fork(AppClock);
+{ while { run } {~v.background_(Color.black); ~v.refresh; (1/8).wait } }.fork(AppClock);
 }.value);
 
 )
