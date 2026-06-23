@@ -90,7 +90,7 @@ SynthDef.new(\player,{
 }).add;
 	);
 
-	~count=[3,5,2,2,2,2];
+	~count=[3,2,3,2,3,2];
 }
 )
 
@@ -641,7 +641,7 @@ point=Cartesian(x,y,z).rotateXZ(ot);
      ~cart=[point.x,point.y,point.z];
 
     };
-~cart.postln;
+//~cart.postln;
 };
 { while { run } {~v.background_(Color.black); ~v.refresh; (1/8).wait } }.fork(AppClock);
 }.value);
