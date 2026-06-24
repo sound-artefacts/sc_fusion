@@ -24,29 +24,29 @@ s.waitForBoot{
 	//~temp= Buffer.alloc(s,2048);
 //	~space= Buffer.alloc(s,2048);
 
-
+	~rad=(2pi-(2pi/((1+5.sqrt)/2)));
 
 {
 var signal,wt;
-		signal=Env([1000,10],[1],[16.neg]);
+		signal=Env([10000,1000,100,10,5],[1,1,1,10],[8.neg,8,8.neg,8]);
 	wt = signal.asSignal(1024).asWavetable;
 ~scale2.loadCollection(wt);
-signal.plot;
+//signal.plot;
 		}.value;
 		{
 var signal,wt;
-		signal=Env([100,10],[1],[16.neg]);
+		signal=Env([0.1,1,10,100,200],[1,1,1,10],[8.neg,8,8.neg,8]);
 	wt = signal.asSignal(1024).asWavetable;
 ~scale1.loadCollection(wt);
-signal.plot;
+//signal.plot;
 		}.value;
 
 	{
 var signal,wt;
-		signal=Env([((2pi/128)/((1+5.sqrt)/2)),2pi-(2pi/((1+5.sqrt)/2))],[1],[16]);
+		signal=Env([~rad/64,~rad/16,~rad/2,~rad,~rad],[1,1,1,10],[16.neg,16,16.neg,0]);
 	wt = signal.asSignal(1024).asWavetable;
 ~rotation.loadCollection(wt);
-signal.plot;
+//signal.plot;
 		}.value;
 
 	/*{
@@ -82,7 +82,7 @@ SynthDef.new(\player,{
 	Out.kr(~controlBus1.index, (Osc.kr(~scale1.bufnum,hz*ml).abs));
 	Out.kr(~controlBus2.index, (Osc.kr(~scale2.bufnum,hz*ml).abs));
 	Out.kr(~controlBus3.index, (Osc.kr(~rotation.bufnum,hz*ml).abs));
-    //Out.kr(~controlBus.index, SinOsc.kr(10).range(4500,5000));
+    Out.kr(~controlBus.index, SinOsc.kr(10,0).range(4500,5000));
 	//Out.kr(~controlBus6.index, (Osc.kr(~temp.bufnum,hz).abs));
 	//Out.kr(~controlBus7.index, (Osc.kr(~space.bufnum,hz).abs));
 
@@ -90,7 +90,7 @@ SynthDef.new(\player,{
 }).add;
 	);
 
-	~count=[3,2,3,2,3,2];
+	~count=[3,2,6,2,12,2];
 }
 )
 
@@ -119,7 +119,7 @@ var az_1=0,el_1=0,az_2=0,el_2=0,az_3=0,el_3=0,az_4=0,el_4=0,az_7=0,el_7=0,az_6=0
 var azimuth,elevation,magnitudex,magnitudey,magnitudez,magnitudeqx;
 var magx,magy,magz,magqx,rotation;
 var angle=0,angle1=0,angle11=0;
-var g=((1+5.sqrt)/2),s=(1+2.sqrt),ott=pi.rand2,temp,space;
+var g=((1+5.sqrt)/2),s=(1+2.sqrt),ott=pi.rand2,temp,space,mod_el=1;
 var waveSpeed = 1/2;
 var waveFreq = 3;
 var amp=2;
@@ -589,14 +589,14 @@ az6=0;el6=0;
 	dota=(~count.[0]*~count.[1]*~count.[2]*~count.[3]*~count.[4]*~count.[5]).collect{
 
 	az=~az.[pla];
-	el=~el.[pla];
+	el=~el.[pla]*mod_el;
 	//mag=1000;
 			mag=(Cartesian(~magx.[pla],~magy.[pla],~magz.[pla]).rho)/2.sqrt;
 	//	mag=mag+(Cartesian(~magqx.[pla],0,0).rho);
 	pla=pla+1;
 			//mk=(mk+(1-(1/1.6180339887499))).wrap(0,1);
 			//sph=Spherical(perspective*scale*mag,az,el).asCartesian.asArray;
-			sph=Spherical(scale*mag,az,el.wrap((pi/8).neg,(pi/8))).asCartesian;
+			sph=Spherical(scale*mag,az,el.wrap((pi/16).neg,(pi/16))).asCartesian;
 			sph=sph.rotateYZ(0.5pi).asArray;
 };
 	//mk=(mk+(1200-(1200/1.6180339887499))).wrap(0,1200);
@@ -606,7 +606,7 @@ az6=0;el6=0;
         // schedule GUI update on AppClock
         AppClock.sched(0, {
             a.data = data;   // ScatterView3d data
-		//	b.data = data;
+			//b.data = data;
 
 			~v.background_(Color(space,space,space));
             ~v.refresh;
@@ -626,12 +626,9 @@ r.play;
 		//b.symbolColor = Color.new(red:temp,blue:temp,green:temp);
 		//a.symbolColor =Color.new(red:temp,blue:temp,green:temp);
    a.rot(0.25pi,ot,0);
-		// b.rot(ott,ott,ott);
-				~r1=ot; ~r2=ot; ~r3=ot;
+ //b.rot(0.25pi,ot+0.5pi,0);
 
 		ot = (ot + rotation).wrap(0,2pi);
-		//ott = (ott + (0.1+rotation).degrad).wrap(0,2pi);
-
     ~cart = data.collect{|p|
 
         var x=p[0], y=p[1], z=p[2];
