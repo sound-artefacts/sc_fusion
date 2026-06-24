@@ -151,13 +151,14 @@ b.background = Color.clear;*/
 scale=~controlBus4.getSynchronous;
 mod_el=~controlBus5.getSynchronous;
 
-/*scale1=~controlBus1.getSynchronous;
+scale1=~controlBus1.getSynchronous;
 scale2=~controlBus2.getSynchronous;
-rotation=~controlBus3.getSynchronous;*/
+rotation=~controlBus3.getSynchronous;
 
-scale1= ~distortion;
+		////for use with reactive sound
+/*scale1= ~distortion;
 scale2= ~gate;
-rotation= ~run;
+rotation= ~run;*/
 
 harm=10;
 temp=1;
