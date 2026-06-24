@@ -21,7 +21,169 @@ Tdef(\drone, {
 
 ////////////////////////////////////////////////////////////////////////////////////////// wavetable, scales, space,timbre///////////////////////////////////////
 ~count=[10,2,2,2,2,2];
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////gui
+(
+{
+var size,sk,compass,n,scl,r,ssk=20,scope1,scope2,scope3,scope4,meter;
+size=700; sk=(size/30); n=(2pi/9).neg; scl=(size/4); r=2;
+compass=10.collect{n=n+(2pi/10); (exp(Complex(0,1)*n)*scl)};
 
+w = Window("synthf", Rect(50, 50, size*2, size)).front;
+~vw = UserView(w, Rect(0,0,size,size)).drawFunc_({ ~img_print.drawInRect(~vw.bounds)});
+~vw1 = UserView(w,Rect(size,0,size,size)).background_(Color.black);
+
+(
+~sl1=Knob.new(~vw, Rect.aboutPoint((compass.[0].real+(size/r)) @ (compass.[0].imag+(size/r)), sk, sk)).
+background_(Color.black).action_({
+arg obj;
+var value;
+value=obj.value.linexp(0,1,1,16256/3).round(1).asInteger.postln;
+~sc=value;
+~log.(value.asString);
+});
+);
+(
+~sl2=Knob.new(~vw, Rect.aboutPoint((compass.[1].real+(size/r)) @ (compass.[1].imag+(size/r)), sk, sk)).
+background_(Color.black).action_({
+arg obj;
+var value;
+value=obj.value.linlin(0,1,(16256*4).neg,(16256*3)).round(1).asInteger.postln;
+~drive=value;
+~log.(value.asString);
+});
+);
+(
+~sl4=Knob.new(~vw, Rect.aboutPoint((compass.[2].real+(size/r)) @ (compass.[2].imag+(size/r)), sk, sk)).
+background_(Color.black).action_({
+arg obj;
+var value;
+value=obj.value.linexp(0,1,0.01,4).postln;
+~attack=value;
+~log.(value.asString);
+});
+);
+(
+~sl3=Knob.new(~vw, Rect.aboutPoint((compass.[3].real+(size/r)) @ (compass.[3].imag+(size/r)), sk, sk)).
+background_(Color.black).action_({
+arg obj;
+var value;
+value=obj.value.linexp(0,1,1,~note).round(1).asInteger.postln;
+~ssc=value;
+~log.(value.asString);
+});
+);
+(
+~sl5=Knob.new(~vw, Rect.aboutPoint((compass.[4].real+(size/r)) @ (compass.[4].imag+(size/r)), sk, sk)).
+background_(Color.black).action_({
+arg obj;
+var value;
+value=obj.value.linlin(0,1,0,16256*3).round(1).asInteger.postln;
+~c=value;
+~log.(value.asString);
+});
+);
+(
+~sl6=Knob.new(~vw, Rect.aboutPoint((compass.[5].real+(size/r)) @ (compass.[5].imag+(size/r)), sk, sk)).
+background_(Color.black).action_({
+arg obj;
+var value;
+value=obj.value.linexp(0,1,1,8).postln;
+~decay=value;
+~log.(value.asString);
+});
+);
+(
+~sl7=Knob.new(~vw, Rect.aboutPoint((compass.[6].real+(size/r))@ (compass.[6].imag+(size/r)), sk, sk)).
+background_(Color.black).action_({
+arg obj;
+var value;
+value=obj.value.linexp(0,1,1/16,8).round(1/64).postln;
+TempoClock.default.tempo_(value);
+~log.(value.asString);
+});
+);
+(
+~sl8=Knob.new(~vw, Rect.aboutPoint((compass.[7].real+(size/r))@ (compass.[7].imag+(size/r)), sk, sk)).
+background_(Color.black).action_({
+arg obj;
+var value;
+value=obj.value.linlin(0,1,0.degrad,2pi-(2pi/~silver)).round((2pi/992).degrad).postln;
+~incr1=value;
+~log.(value.asString);
+});
+);
+(
+~sl9=Knob.new(~vw, Rect.aboutPoint((compass.[8].real+(size/r))@ (compass.[8].imag+(size/r)), sk, sk)).
+background_(Color.black).action_({
+arg obj;
+var value;
+value=obj.value.linlin(0,1,0.degrad,pi-(pi/~gold)).round((pi/992).degrad).postln;
+~incr2=value;
+~log.(value.asString);
+});
+);
+(
+~sl10=Knob.new(~vw, Rect.aboutPoint((compass.[9].real+(size/r))@ (compass.[9].imag+(size/r)), sk, sk)).
+background_(Color.black).action_({
+arg obj;
+var value;
+value=obj.value.linexp(0,1,0.01,1).postln;
+~mix=value;
+~log.(value.asString);
+});
+);
+(
+~sl01=Knob.new(~vw1, Rect.new(sk+sk+50+50+sk,sk+sk, sk+ssk, sk+ssk)).
+background_(Color.black).action_({
+arg obj;
+var value;
+value=obj.value.linexp(0,1,0.001,2pi).postln;
+~gain=value;
+~log.(value.asString);
+});
+);
+(
+~sl02=Knob.new(~vw1, Rect.new(sk+sk+150+50+sk,sk+sk, sk+ssk, sk+ssk)).
+background_(Color.black).action_({
+arg obj;
+var value;
+value=obj.value.linexp(0,1,0.05,3).postln;
+~s_size=value;
+~log.(value.asString);
+});
+);
+(
+~sl03=Knob.new(~vw1, Rect.new(sk+sk+250+50+sk,sk+sk, sk+ssk, sk+ssk)).
+background_(Color.black).action_({
+arg obj;
+var value;
+value=obj.value.linlin(0,1,10,100).postln;
+~lowend=value;
+~log.(value.asString);
+});
+);
+(
+~sl04=Knob.new(~vw1, Rect.new(sk+sk+350+50+sk,sk+sk, sk+ssk, sk+ssk)).
+background_(Color.black).action_({
+arg obj;
+var value;
+value=obj.value.linexp(0,1,0.01,1).postln;
+~room=value;
+~log.(value.asString);
+});
+);
+(
+~sl05=Knob.new(~vw1, Rect.new(sk+sk+450+50+sk,sk+sk, sk+ssk, sk+ssk)).
+background_(Color.black).action_({
+arg obj;
+var value;
+value=obj.value.linlin(0,1,1,16).postln;
+~rect=value;
+~log.(value.asString);
+});
+)
+}.defer
+);
 //////////////////////////////////////////////////////////////////////animation
 (
 ({
@@ -53,11 +215,7 @@ var theta,phi ,wave;
 ~hz=Synth.new(\player);
 //~hz.set(\ml,0.1);
 data = [];
-Window.free;
-~w = Window.new("3D Scatterplot", Rect(40,40, 1800, 1000)).front;
-
-~v = UserView.new(~w,Rect(0,0,1800,1000)).background_(Color.black);
-a = ScatterView3d(~v, Rect(0,0, 1800,1000), ~data, [-5000, 5000].asSpec,[-5000, 5000].asSpec,[-5000, 5000].asSpec);
+a = ScatterView3d(~vw1, Rect(0,0, 1800,1000), ~data, [-5000, 5000].asSpec,[-5000, 5000].asSpec,[-5000, 5000].asSpec);
 a.drawMethod = \fillRect;
 a.symbolSize = 2;
 a.symbolColor = Color.white;
@@ -546,10 +704,10 @@ az6=0;el6=0;
 r.play;
 
 
-~v.animate;
-~v.drawFunc ={
+~vw1.animate;
+~vw1.drawFunc ={
 
-    Pen.translate(1000,600);
+   // Pen.translate(size,size/2);
 
 		//b.symbolColor = Color.new(red:temp,blue:temp,green:temp);
 		//a.symbolColor =Color.new(red:temp,blue:temp,green:temp);
@@ -959,182 +1117,6 @@ Pbind(\instrument, \synth,
 ));
 ~pattern.play;
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////gui
-(
-{
-var size,sk,compass,n,scl,r,ssk=20,scope1,scope2,scope3,scope4,meter;
-size=700; sk=(size/30); n=(2pi/9).neg; scl=(size/4); r=2;
-compass=10.collect{n=n+(2pi/10); (exp(Complex(0,1)*n)*scl)};
-
-w = Window("synthf", Rect(50, 50, size*2, size)).front;
-~vw = UserView(w, Rect(0,0,size,size)).drawFunc_({ ~img_print.drawInRect(~vw.bounds)});
-~vw1 = UserView(w,Rect(size,0,size,size)).background_(Color.black);
-~logView = ListView( ~vw1, Rect(0, 0, 40, 750))
-.background_(Color.black).stringColor_(Color.white)
-.font_(Font("Arial", 20))
-.items_([]);
-~logItems = List.new;
-~log = { |msg| {~logItems.add(msg); if(~logItems.size > 200) { ~logItems.removeAt(0);  };
- ~logView.items_(~logItems.asArray); ~logView.value_(~logItems.size - 1); }.defer;};
-
-scope1 = FreqScopeView(~vw1, Rect(sk+100+50,sk+ssk+30,  sk+350, sk+100));
-scope1.active_(true);scope1.dbRange_(120);scope1.inBus_(0);scope1.freqMode_(0);
-scope2 = FreqScopeView(~vw1, Rect(sk+100+50, sk+ssk+180,  sk+350, sk+100));
-scope2.active_(true);scope2.dbRange_(120);scope2.inBus_(1);scope2.freqMode_(0);
-scope3 = FreqScopeView(~vw1, Rect(sk+100+50, sk+ssk+330, sk+350, sk+100));
-scope3.active_(true);scope3.dbRange_(120);scope3.inBus_(2);scope3.freqMode_(0);
-(
-~sl1=Knob.new(~vw, Rect.aboutPoint((compass.[0].real+(size/r)) @ (compass.[0].imag+(size/r)), sk, sk)).
-background_(Color.black).action_({
-arg obj;
-var value;
-value=obj.value.linexp(0,1,1,16256/3).round(1).asInteger.postln;
-~sc=value;
-~log.(value.asString);
-});
-);
-(
-~sl2=Knob.new(~vw, Rect.aboutPoint((compass.[1].real+(size/r)) @ (compass.[1].imag+(size/r)), sk, sk)).
-background_(Color.black).action_({
-arg obj;
-var value;
-value=obj.value.linlin(0,1,(16256*4).neg,(16256*3)).round(1).asInteger.postln;
-~drive=value;
-~log.(value.asString);
-});
-);
-(
-~sl4=Knob.new(~vw, Rect.aboutPoint((compass.[2].real+(size/r)) @ (compass.[2].imag+(size/r)), sk, sk)).
-background_(Color.black).action_({
-arg obj;
-var value;
-value=obj.value.linexp(0,1,0.01,4).postln;
-~attack=value;
-~log.(value.asString);
-});
-);
-(
-~sl3=Knob.new(~vw, Rect.aboutPoint((compass.[3].real+(size/r)) @ (compass.[3].imag+(size/r)), sk, sk)).
-background_(Color.black).action_({
-arg obj;
-var value;
-value=obj.value.linexp(0,1,1,~note).round(1).asInteger.postln;
-~ssc=value;
-~log.(value.asString);
-});
-);
-(
-~sl5=Knob.new(~vw, Rect.aboutPoint((compass.[4].real+(size/r)) @ (compass.[4].imag+(size/r)), sk, sk)).
-background_(Color.black).action_({
-arg obj;
-var value;
-value=obj.value.linlin(0,1,0,16256*3).round(1).asInteger.postln;
-~c=value;
-~log.(value.asString);
-});
-);
-(
-~sl6=Knob.new(~vw, Rect.aboutPoint((compass.[5].real+(size/r)) @ (compass.[5].imag+(size/r)), sk, sk)).
-background_(Color.black).action_({
-arg obj;
-var value;
-value=obj.value.linexp(0,1,1,8).postln;
-~decay=value;
-~log.(value.asString);
-});
-);
-(
-~sl7=Knob.new(~vw, Rect.aboutPoint((compass.[6].real+(size/r))@ (compass.[6].imag+(size/r)), sk, sk)).
-background_(Color.black).action_({
-arg obj;
-var value;
-value=obj.value.linexp(0,1,1/16,8).round(1/64).postln;
-TempoClock.default.tempo_(value);
-~log.(value.asString);
-});
-);
-(
-~sl8=Knob.new(~vw, Rect.aboutPoint((compass.[7].real+(size/r))@ (compass.[7].imag+(size/r)), sk, sk)).
-background_(Color.black).action_({
-arg obj;
-var value;
-value=obj.value.linlin(0,1,0.degrad,2pi-(2pi/~silver)).round((2pi/992).degrad).postln;
-~incr1=value;
-~log.(value.asString);
-});
-);
-(
-~sl9=Knob.new(~vw, Rect.aboutPoint((compass.[8].real+(size/r))@ (compass.[8].imag+(size/r)), sk, sk)).
-background_(Color.black).action_({
-arg obj;
-var value;
-value=obj.value.linlin(0,1,0.degrad,pi-(pi/~gold)).round((pi/992).degrad).postln;
-~incr2=value;
-~log.(value.asString);
-});
-);
-(
-~sl10=Knob.new(~vw, Rect.aboutPoint((compass.[9].real+(size/r))@ (compass.[9].imag+(size/r)), sk, sk)).
-background_(Color.black).action_({
-arg obj;
-var value;
-value=obj.value.linexp(0,1,0.01,1).postln;
-~mix=value;
-~log.(value.asString);
-});
-);
-(
-~sl01=Knob.new(~vw1, Rect.new(sk+sk+50+50+sk,sk+sk, sk+ssk, sk+ssk)).
-background_(Color.black).action_({
-arg obj;
-var value;
-value=obj.value.linexp(0,1,0.001,2pi).postln;
-~gain=value;
-~log.(value.asString);
-});
-);
-(
-~sl02=Knob.new(~vw1, Rect.new(sk+sk+150+50+sk,sk+sk, sk+ssk, sk+ssk)).
-background_(Color.black).action_({
-arg obj;
-var value;
-value=obj.value.linexp(0,1,0.05,3).postln;
-~s_size=value;
-~log.(value.asString);
-});
-);
-(
-~sl03=Knob.new(~vw1, Rect.new(sk+sk+250+50+sk,sk+sk, sk+ssk, sk+ssk)).
-background_(Color.black).action_({
-arg obj;
-var value;
-value=obj.value.linlin(0,1,10,100).postln;
-~lowend=value;
-~log.(value.asString);
-});
-);
-(
-~sl04=Knob.new(~vw1, Rect.new(sk+sk+350+50+sk,sk+sk, sk+ssk, sk+ssk)).
-background_(Color.black).action_({
-arg obj;
-var value;
-value=obj.value.linexp(0,1,0.01,1).postln;
-~room=value;
-~log.(value.asString);
-});
-);
-(
-~sl05=Knob.new(~vw1, Rect.new(sk+sk+450+50+sk,sk+sk, sk+ssk, sk+ssk)).
-background_(Color.black).action_({
-arg obj;
-var value;
-value=obj.value.linlin(0,1,1,16).postln;
-~rect=value;
-~log.(value.asString);
-});
-)
-}.defer
-)
 )
 }); Tdef(\drone).play;
 }
