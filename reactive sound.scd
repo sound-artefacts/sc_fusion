@@ -571,8 +571,51 @@ point=Cartesian(x,y,z).rotateXZ(ot);
 //~cart.postln;
 };
 //{ while { run } {~v.background_(Color.black); ~v.refresh; (1/8).wait } }.fork(AppClock);
-}.value);
+}.defer);
 
+);
+		(
+		~vertices = 1024;
+
+{
+var nn=1.neg, n=0;
+var difaz, difel;
+
+difaz = ~vertices.collect{
+    nn = nn + 1;
+    ~az.[nn]
+};
+
+nn = 1.neg;
+
+difel = ~vertices.collect{
+    nn = nn + 1;
+    ~el.[nn]
+};
+
+~cx = [];
+~cy = [];
+~cz = [];
+
+~vertices.do{
+    var az, el;
+    var x, y, z;
+
+    az = difaz.[n];
+    el = difel.[n];
+
+    // explicit spherical -> cartesian (radius = 1)
+    x = cos(el) * cos(az);
+    y = cos(el) * sin(az);
+    z = sin(el);
+
+    ~cx = ~cx ++ x;
+    ~cy = ~cy ++ y;
+    ~cz = ~cz ++ z;
+
+    n = n + 1;
+};
+}.value;
 );
 ////envelope sig
 		(
