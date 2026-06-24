@@ -82,7 +82,7 @@ SynthDef.new(\player,{
 	Out.kr(~controlBus1.index, (Osc.kr(~scale1.bufnum,hz*ml).abs));
 	Out.kr(~controlBus2.index, (Osc.kr(~scale2.bufnum,hz*ml).abs));
 	Out.kr(~controlBus3.index, (Osc.kr(~rotation.bufnum,hz*ml).abs));
-   // Out.kr(~controlBus3.index, (Osc.kr(~harm.bufnum,hz).abs));
+    //Out.kr(~controlBus.index, SinOsc.kr(10).range(4500,5000));
 	//Out.kr(~controlBus6.index, (Osc.kr(~temp.bufnum,hz).abs));
 	//Out.kr(~controlBus7.index, (Osc.kr(~space.bufnum,hz).abs));
 
@@ -147,20 +147,22 @@ b.background = Color.clear;*/
 
   r= Routine({loop{
 
- waveSpeed = ~bspeed;
- waveFreq = ~bfreq;
- amp=~bamp;
+scale=5000;
+scale1=~controlBus1.getSynchronous;
+scale2=~controlBus2.getSynchronous;
+rotation=~controlBus3.getSynchronous;
+harm=1;
+temp=1;
+space=0;
+m_x=m_y=m_z=harm;
+mq=harm+1;
 
-		scale=5000;
-	scale1=~controlBus1.getSynchronous;
-	scale2=~controlBus2.getSynchronous;
-	rotation=~controlBus3.getSynchronous;
-		harm=1;
-		temp=1;
-			space=0;
+	//	~expansion=rotation;
+	//	~tempo=rotation;
+	//	~re_mix=rotation;
+	//	~drive=scale1;
+	//	~rect=scale2;
 
-	m_x=m_y=m_z=harm;
-		mq=harm+1;
 
 
 	axis=~count.[0];
@@ -643,7 +645,7 @@ point=Cartesian(x,y,z).rotateXZ(ot);
     };
 //~cart.postln;
 };
-{ while { run } {~v.background_(Color.black); ~v.refresh; (1/8).wait } }.fork(AppClock);
+//{ while { run } {~v.background_(Color.black); ~v.refresh; (1/8).wait } }.fork(AppClock);
 }.value);
 
 )
