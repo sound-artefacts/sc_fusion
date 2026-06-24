@@ -9,11 +9,11 @@ s.options.maxNodes = 1024 * 2;
 s.makeGui;
 s.waitForBoot{
 //Buffer.freeAll;
-~controlBus = Bus.control(s, 1);
+~controlBus5 = Bus.control(s, 1);
 ~controlBus1 = Bus.control(s, 1);
 ~controlBus2 = Bus.control(s, 1);
 ~controlBus3 = Bus.control(s, 1);
-//~controlBus4 = Bus.control(s, 1);
+~controlBus4 = Bus.control(s, 1);
 //~controlBus5 = Bus.control(s, 1);
 //~controlBus6 = Bus.control(s, 1);
 
@@ -24,18 +24,18 @@ s.waitForBoot{
 	//~temp= Buffer.alloc(s,2048);
 //	~space= Buffer.alloc(s,2048);
 
-	~rad=(2pi-(2pi/((1+5.sqrt)/2)));
-
+	~rad=(pi-(pi/((1+5.sqrt)/2)));
+~curve=16;
 {
 var signal,wt;
-		signal=Env([10000,1000,100,10,5],[1,1,1,10],[8.neg,8,8.neg,8]);
+		signal=Env([10000,1000,100,10,10],[4,2,1,8],[~curve.neg,~curve,~curve.neg,~curve]);
 	wt = signal.asSignal(1024).asWavetable;
 ~scale2.loadCollection(wt);
 //signal.plot;
 		}.value;
 		{
 var signal,wt;
-		signal=Env([0.1,1,10,100,200],[1,1,1,10],[8.neg,8,8.neg,8]);
+		signal=Env([1,10,100,1000,1000],[4,2,1,8],[~curve.neg,~curve,~curve.neg,~curve]);
 	wt = signal.asSignal(1024).asWavetable;
 ~scale1.loadCollection(wt);
 //signal.plot;
@@ -43,7 +43,7 @@ var signal,wt;
 
 	{
 var signal,wt;
-		signal=Env([~rad/64,~rad/16,~rad/2,~rad,~rad],[1,1,1,10],[16.neg,16,16.neg,0]);
+		signal=Env([~rad/128,~rad/32,~rad/2,~rad,~rad],[4,2,1,8],[~curve.neg,~curve,~curve.neg,~curve]);
 	wt = signal.asSignal(1024).asWavetable;
 ~rotation.loadCollection(wt);
 //signal.plot;
@@ -82,15 +82,15 @@ SynthDef.new(\player,{
 	Out.kr(~controlBus1.index, (Osc.kr(~scale1.bufnum,hz*ml).abs));
 	Out.kr(~controlBus2.index, (Osc.kr(~scale2.bufnum,hz*ml).abs));
 	Out.kr(~controlBus3.index, (Osc.kr(~rotation.bufnum,hz*ml).abs));
-    Out.kr(~controlBus.index, SinOsc.kr(10,0).range(4500,5000));
-	//Out.kr(~controlBus6.index, (Osc.kr(~temp.bufnum,hz).abs));
+	Out.kr(~controlBus4.index, (SinOsc.kr(0.1,0).range(4800,5000)));
+	Out.kr(~controlBus5.index,  (SinOsc.kr(0.1,0.5pi).range((pi/4).neg,(pi/4))));
 	//Out.kr(~controlBus7.index, (Osc.kr(~space.bufnum,hz).abs));
 
 
 }).add;
 	);
 
-	~count=[3,2,6,2,12,2];
+	~count=[10,2,2,2,2,2];
 }
 )
 
@@ -119,10 +119,10 @@ var az_1=0,el_1=0,az_2=0,el_2=0,az_3=0,el_3=0,az_4=0,el_4=0,az_7=0,el_7=0,az_6=0
 var azimuth,elevation,magnitudex,magnitudey,magnitudez,magnitudeqx;
 var magx,magy,magz,magqx,rotation;
 var angle=0,angle1=0,angle11=0;
-var g=((1+5.sqrt)/2),s=(1+2.sqrt),ott=pi.rand2,temp,space,mod_el=1;
-var waveSpeed = 1/2;
-var waveFreq = 3;
-var amp=2;
+var g=((1+5.sqrt)/2),s=(1+2.sqrt),ott=pi.rand2,temp,space,mod_el=0;
+var waveSpeed = 0.1;
+var waveFreq = 5;
+var amp=1;
 var theta,phi ,wave;
 
 	~az=[];~el=[];~magx=[];~magy=[];~magz=[];~qx=[]; ~cart=[];      ~detune=1;
@@ -147,11 +147,13 @@ b.background = Color.clear;*/
 
   r= Routine({loop{
 
-scale=5000;
+//scale=5000;
+scale=~controlBus4.getSynchronous;
+mod_el=~controlBus5.getSynchronous;
 scale1=~controlBus1.getSynchronous;
 scale2=~controlBus2.getSynchronous;
 rotation=~controlBus3.getSynchronous;
-harm=1;
+harm=10;
 temp=1;
 space=0;
 m_x=m_y=m_z=harm;
@@ -562,6 +564,7 @@ az6=0;el6=0;
 };
 }.value;
 );
+		(
 						~magxb = ~magx.collect { |val, i|
 
 	 theta = ~az[i];
@@ -585,18 +588,20 @@ az6=0;el6=0;
 	wave = amp*sin((waveFreq * theta) + (waveFreq * phi )- waveSpeed);
     val * wave;
 };
+		);
+
 
 	dota=(~count.[0]*~count.[1]*~count.[2]*~count.[3]*~count.[4]*~count.[5]).collect{
 
 	az=~az.[pla];
-	el=~el.[pla]*mod_el;
+	el=~el.[pla]+mod_el;
 	//mag=1000;
-			mag=(Cartesian(~magx.[pla],~magy.[pla],~magz.[pla]).rho)/2.sqrt;
+			mag=(Cartesian(~magxb.[pla],~magyb.[pla],~magzb.[pla]).rho)/2.sqrt;
 	//	mag=mag+(Cartesian(~magqx.[pla],0,0).rho);
 	pla=pla+1;
 			//mk=(mk+(1-(1/1.6180339887499))).wrap(0,1);
 			//sph=Spherical(perspective*scale*mag,az,el).asCartesian.asArray;
-			sph=Spherical(scale*mag,az,el.wrap((pi/16).neg,(pi/16))).asCartesian;
+			sph=Spherical((scale*mag).wrap(4500,5000),az,el.wrap((pi/16).neg,(pi/16))).asCartesian;
 			sph=sph.rotateYZ(0.5pi).asArray;
 };
 	//mk=(mk+(1200-(1200/1.6180339887499))).wrap(0,1200);
