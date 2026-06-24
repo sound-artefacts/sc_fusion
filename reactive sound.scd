@@ -475,6 +475,7 @@ arg obj;
 var value;
 value=obj.value.linlin(0,1,(16256*4).neg,(16256*3)).round(1).asInteger.postln;
 ~drive=value;
+~distortion=obj.value.linlin(0,1,(16256*4).neg,(16256*3)).round(1).asInteger;
 ~log.(value.asString);
 });
 );
@@ -525,6 +526,8 @@ arg obj;
 var value;
 value=obj.value.linexp(0,1,1/16,8).round(1/64).postln;
 TempoClock.default.tempo_(value);
+~run=obj.value.linexp(0,1,1/16,8).round(1/64);
+~c=obj.value.linlin(0,1,0,16256*3).round(1).asInteger.postln;
 ~log.(value.asString);
 });
 );
@@ -553,8 +556,9 @@ value=obj.value.linlin(0,1,0.degrad,pi-(pi/~gold)).round((pi/992).degrad).postln
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linexp(0,1,0.01,1).postln;
+value=obj.value.linexp(0,1,0.001,1).postln;
 ~mix=value;
+~hz.set(\cont,value);
 ~log.(value.asString);
 });
 );
@@ -605,6 +609,7 @@ arg obj;
 var value;
 value=obj.value.linlin(0,1,1,16).postln;
 ~rect=value;
+~gate=obj.value.linlin(0,1,1,16);
 ~log.(value.asString);
 });
 )

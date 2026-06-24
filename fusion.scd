@@ -76,7 +76,7 @@ var signal,wt;
 
 (
 SynthDef.new(\player,{
-			arg ml=1;
+			arg ml=1,cont=0.1;
 			var hz=0.05;
 
 	Out.kr(~controlBus1.index, (Osc.kr(~scale1.bufnum,hz*ml).abs));
@@ -127,7 +127,7 @@ var theta,phi ,wave;
 
 	~az=[];~el=[];~magx=[];~magy=[];~magz=[];~qx=[]; ~cart=[];      ~detune=1;
 //	spread = if(m_z < 1) { 1 / m_z } { m_z };
-~hz=Synth.new(\player);
+~hz=Synth.new(\player).register;
 //~hz.set(\ml,0.1);
 data = [];
 Window.free;
@@ -150,9 +150,15 @@ b.background = Color.clear;*/
 //scale=5000;
 scale=~controlBus4.getSynchronous;
 mod_el=~controlBus5.getSynchronous;
-scale1=~controlBus1.getSynchronous;
+
+/*scale1=~controlBus1.getSynchronous;
 scale2=~controlBus2.getSynchronous;
-rotation=~controlBus3.getSynchronous;
+rotation=~controlBus3.getSynchronous;*/
+
+scale1= ~distortion;
+scale2= ~gate;
+rotation= ~run;
+
 harm=10;
 temp=1;
 space=0;
