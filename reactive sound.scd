@@ -12,7 +12,7 @@ Window.closeAll;
 //s.makeGui(w);
 //s.meter;
 //s.freqscope;
-/s.scope;
+//s.scope;
 );
 ~img_print = Image.open("/Users/rohifes/Documents/Literary/Portfolio/SUPERCOLLIDER/2026/synth/image1.jpg");///////////////paste image image1.jpg
 s.waitForBoot{
@@ -528,7 +528,7 @@ var value;
 value=obj.value.linexp(0,1,1/16,8).round(1/64).postln;
 TempoClock.default.tempo_(value);
 ~run=obj.value.linexp(0,1,~rad/128,~rad);
-~c=obj.value.linlinlinlin(0,1,16256*3,0).round(1).asInteger;
+~c=obj.value.linlin(0,1,16256*3,0).round(1).asInteger;
 ~log.(value.asString);
 });
 );
