@@ -83,8 +83,8 @@ SynthDef.new(\player,{
 	Out.kr(~controlBus1.index, (Osc.kr(~scale1.bufnum,hz*ml).abs));
 	Out.kr(~controlBus2.index, (Osc.kr(~scale2.bufnum,hz*ml).abs));
 	Out.kr(~controlBus3.index, (Osc.kr(~rotation.bufnum,hz*ml).abs));
-	Out.kr(~controlBus4.index, (SinOsc.kr(0.1,0).range(4500,5000)));
-	Out.kr(~controlBus5.index,  (SinOsc.kr(0.1,0.5pi).range((pi/16).neg,(pi/16))));
+	Out.kr(~controlBus4.index, (SinOsc.kr(cont,0).range(4500,5000)));
+	Out.kr(~controlBus5.index,  (SinOsc.kr(cont,0.5pi).range((pi/16).neg,(pi/16))));
 	//Out.kr(~controlBus7.index, (Osc.kr(~space.bufnum,hz).abs));
 
 
