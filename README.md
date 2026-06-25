@@ -12,3 +12,6 @@ wrapped to bounds in order to keep distribution in the reactor totroidal shape. 
 
 
 //temp variable is point cloud color and space variable is point cloud background color
+
+
+3d plotter folder includer an animation 3d plotter for plotting arrays of coordinate data, colouring and shaping via geodesic lines, ovals and rectangles
