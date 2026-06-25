@@ -476,7 +476,7 @@ arg obj;
 var value;
 value=obj.value.linlin(0,1,(16256*4).neg,(16256*3)).round(1).asInteger.postln;
 ~drive=value;
-~distortion=obj.value.linlin(0,1,1,1000);
+~distortion=obj.value.linexp(0,1,1.1,1000.1);
 ~log.(value.asString);
 });
 );
@@ -610,7 +610,7 @@ arg obj;
 var value;
 value=obj.value.linlin(0,1,1,16).postln;
 ~rect=value;
-~gate=obj.value.linlin(0,1,10000,10);
+~gate=obj.value.linexp(0,1,10000.1,1.1);
 ~log.(value.asString);
 });
 )
