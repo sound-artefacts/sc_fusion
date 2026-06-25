@@ -166,7 +166,7 @@ n=n+1;
 ///perspective
 per = dist / (dist + point.z + (dist/2));
 px=Polar(point.z,Complex(point.x,point.y).theta);
-//px=point;
+px=point;
 ///color
 Pen.fillColor = Color.white.alpha_(per.clip(0.1,1.0));
 ///object
@@ -179,10 +179,10 @@ w.front;
 Routine({
 inf.do {
 ///points rotation animation
-r_az = r_az + 0.1;
-r_el = r_el + 0.1;
+r_az = r_az + 0;
+r_el = r_el + 0;
 ///whole distribution rotation animation
-rx = rx+0.1;
+rx = rx+0;
 ry = ry + 0.1;
 rz = rz + 0.1;
 {v.refresh}.defer;
