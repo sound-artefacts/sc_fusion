@@ -527,7 +527,7 @@ arg obj;
 var value;
 value=obj.value.linexp(0,1,1/16,8).round(1/64).postln;
 TempoClock.default.tempo_(value);
-~run=obj.value.linexp(0,1,~rad/16,~rad);
+~run=obj.value.linexp(0,1,~rad/8,~rad);
 ~c=obj.value.linlin(0,1,16256*3,0).round(1).asInteger;
 ~log.(value.asString);
 });
