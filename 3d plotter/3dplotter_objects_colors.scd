@@ -1,139 +1,4 @@
 
-/* ///noMathlib       // Z-axis rotation
-
-        x1 = x * rotZ.cos - y * rotZ.sin;
-        y1 = x * rotZ.sin + y * rotZ.cos;
-        z1 = z;
-
-        // Y-axis rotation
-
-        x2 = x1 * rotY.cos + z1 * rotY.sin;
-        z2 = x1.neg * rotY.sin + z1 * rotY.cos;
-        y2 = y1;
-
-        // X-axis rotation
-
-        x1 = x2;
-        y1 = y2 * rotX.cos - z2 * rotX.sin;
-        z1 = y2 * rotX.sin + z2 * rotX.cos;
-
-//rotation of distributin
-// X rotation
-point = Cartesian(
-    point.x,
-    point.y * rx.cos - point.z * rx.sin,
-    point.y * rx.sin + point.z * rx.cos
-);
-
-// Y rotation
-point = Cartesian(
-    point.x * ry.cos + point.z * ry.sin,
-    point.y,
-    point.x.neg * ry.sin + point.z * ry.cos
-);
-// Z rotation
-point = Cartesian(
-    point.x * rz.cos - point.y * rz.sin,
-    point.x * rz.sin + point.y * rz.cos,
-    point.z
-);
-
-
-*/
-
-
-//////example
-/*(
-var w, u;
-
-var rotAz = 0.0;
-var rotEl = 0.0;
-
-var points;
-
-points = Array.fill(500, {
-
-    Spherical(
-        rrand(30.0,150.0),      // radius
-        rrand(-pi,pi),          // azimuth
-        rrand(-pi/2,pi/2)       // elevation
-    )
-
-});
-
-w = Window("Spherical Plotter", Rect(100,100,600,600));
-
-u = UserView(w, w.view.bounds)
-.background_(Color.black);
-
-u.drawFunc = {
-
-    var d = 500;
-
-    Pen.translate(
-        u.bounds.width/2,
-        u.bounds.height/2
-    );
-
-    points.do { |s|
-
-        var p;
-        var scale;
-
-        p = Spherical(
-            s.rho,
-            s.theta + rotAz,
-            (s.phi + rotEl).clip(
-                -pi/2,
-                pi/2
-            )
-        ).asCartesian;
-
-        scale = d / (d + p.z + 250);
-
-        Pen.fillColor =
-        Color.white.alpha_(
-            scale.clip(0.1,1.0)
-        );
-
-        Pen.fillOval(
-            Rect.aboutPoint(
-                Point(
-                    p.x * scale,
-                    p.y * scale
-                ),
-                3 * scale,
-                3 * scale
-            )
-        );
-
-    };
-
-};
-
-w.front;
-
-Routine({
-
-    inf.do {
-
-        rotAz = rotAz + 0.01;
-        rotEl = rotEl + 0.002;
-
-        {
-            u.refresh
-        }.defer;
-
-        0.02.wait;
-
-    };
-
-}).play;
-
-)*/
-/////////////////////////////////
-
-
 (
 var w, u,size=1000;
 var r_az = 0.0,r_el = 0.0,az,el,px;
@@ -306,3 +171,78 @@ angle=(angle+(2pi-(2pi/silver_r))).wrap(pi.neg,pi);
 	}
 }.value;
 )
+
+
+
+/////solid polytope point cloud vertices
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////spaces
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/*
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////tetrahedron
+(
+~azimuth=[45.degrad,135.neg.degrad,45.neg.degrad,135.degrad];
+~elevation=[35.264390.neg.degrad,35.264390.neg.degrad,35.264390.degrad,35.264390.degrad];
+);
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////cube
+(
+~azimuth=[45.degrad,135.degrad,45.neg.degrad,135.neg.degrad,45.degrad,135.degrad,45.neg.degrad,135.neg.degrad];
+~elevation=[35.264390.neg.degrad,35.264390.neg.degrad,35.264390.neg.degrad,35.264390.neg.degrad,35.264390.degrad,35.264390.degrad,35.264390.degrad,35.264390.degrad];
+)
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////octahedron
+(
+~azimuth=[0.degrad,0.degrad,90.degrad,180.degrad,90.neg.degrad,0.degrad];
+~elevation=[90.neg.degrad,0.degrad,0.degrad,0.degrad,0.degrad,90.degrad];
+)
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////icosahedron
+(
+~azimuth=[90.degrad,90.neg.degrad,0.degrad,180.degrad,58.28.degrad,121.72.degrad,121.72.neg.degrad,58.neg.degrad,90.degrad,90.neg.degrad,0.degrad,180.degrad];
+~elevation=[58.28.neg.degrad,58.28.neg.degrad,31.72.neg.degrad,31.72.neg.degrad,0.degrad,0.degrad,0.degrad,0.degrad,58.28.degrad,58.28.degrad,31.72.degrad,31.72.degrad];
+)
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////dodecahedron
+(
+~azimuth=[45.degrad,135.neg.degrad,135.degrad,45.neg.degrad,90.degrad,90.neg.degrad,0.degrad,180.degrad,45.degrad,135.neg.degrad,135.degrad,45.neg.degrad,90.degrad,
+	90.neg.degrad,69.09.degrad,110.91.degrad,110.91.neg.degrad,69.09.neg.degrad,0.degrad,180.degrad];
+
+~elevation=[35.26.neg.degrad,35.26.neg.degrad,35.26.neg.degrad,35.26.neg.degrad,69.09.neg.degrad,69.09.neg.degrad,20.91.neg.degrad,20.91.neg.degrad,
+	35.26.degrad,35.26.degrad,35.26.degrad,35.26.degrad,69.09.degrad,69.09.degrad,0.degrad,0.degrad,0.degrad,0.degrad,20.91.degrad,20.91.degrad]
+)
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Rhombic dodecahedron
+(
+~azimuth=[0.degrad,45.degrad,135.neg.degrad,135.degrad,45.neg.degrad,0.degrad,180.degrad,90.degrad,90.neg.degrad,0.degrad,
+	45.degrad,135.neg.degrad,135.degrad,45.neg.degrad];
+~elevation=[90.neg.degrad,35.264390.neg.degrad,35.264390.neg.degrad,35.264390.neg.degrad,35.264390.neg.degrad,0.degrad
+	,0.degrad,0.degrad,0.degrad,90.degrad,35.264390.degrad,35.264390.degrad,35.264390.degrad,35.264390.degrad];
+)
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////cuboctahedron
+(
+~azimuth=[0.degrad,90.degrad,180.degrad,90.neg.degrad,45.degrad,135.degrad,45.neg.degrad,135.neg.degrad,
+	0.degrad,90.degrad,180.degrad,90.neg.degrad];
+~elevation=[45.neg.degrad,45.neg.degrad,45.neg.degrad,45.neg.degrad,0.degrad,0.degrad,0.degrad,0.degrad,
+	45.degrad,45.degrad,45.degrad,45.degrad];
+)
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Rhombic Triacontahedron
+(
+~azimuth=[0.degrad,0.degrad,72.degrad,144.degrad,144.neg.degrad,72.neg.degrad,36.degrad,108.degrad,180.degrad,108.neg.degrad,36.neg.degrad,
+	0.degrad,72.degrad,144.degrad,144.neg.degrad,72.neg.degrad,36.degrad,108.degrad,180.degrad,108.neg.degrad,36.neg.degrad,
+	0.degrad,72.degrad,144.degrad,144.neg.degrad,72.neg.degrad,36.degrad,108.degrad,180.degrad,108.neg.degrad,36.neg.degrad,0.degrad];
+
+~elevation=[90.neg.degrad,52.6.neg.degrad,52.6.neg.degrad,52.6.neg.degrad,52.6.neg.degrad,52.6.neg.degrad,26.6.neg.degrad,26.6.neg.degrad,26.6.neg.degrad,26.6.neg.degrad,26.6.neg.degrad,10.8.neg.degrad,10.8.neg.degrad,10.8.neg.degrad,10.8.neg.degrad,10.8.neg.degrad,52.6.degrad,52.6.degrad,52.6.degrad,52.6.degrad,52.6.degrad,26.6.degrad,26.6.degrad,26.6.degrad,26.6.degrad,26.6.degrad,10.8.degrad,10.8.degrad,10.8.degrad,10.8.degrad,10.8.degrad,90.degrad];
+
+)
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////icosidodecahedron
+(
+~azimuth=[18.degrad,90.degrad,162.degrad,126.neg.degrad,54.neg.degrad,54.degrad,126.degrad,162.neg.degrad,90.neg.degrad,18.neg.degrad,
+	0.degrad,36.degrad,72.degrad,108.degrad,144.degrad,180.degrad,144.neg.degrad,108.neg.degrad,72.neg.degrad,36.neg.degrad,
+	54.degrad,126.degrad,162.neg.degrad,90.neg.degrad,18.neg.degrad,18.degrad,90.degrad,162.degrad,126.neg.degrad,54.neg.degrad];
+
+~elevation=[58.283.degrad,58.283.degrad,58.283.degrad,58.283.degrad,58.283.degrad,58.283.neg.degrad,58.283.neg.degrad,58.283.neg.degrad,58.283.neg.degrad,58.283.neg.degrad,0.degrad,0.degrad,0.degrad,0.degrad,0.degrad,0.degrad,0.degrad,0.degrad,0.degrad,0.degrad,
+37.717.degrad,37.717.degrad,37.717.degrad,37.717.degrad,37.717.degrad,37.717.neg.degrad,37.717.neg.degrad,37.717.neg.degrad,37.717.neg.degrad,37.717.neg.degrad];
+)*/
