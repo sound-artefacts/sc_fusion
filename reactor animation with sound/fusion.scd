@@ -80,9 +80,12 @@ SynthDef.new(\player,{
 			arg ml=1,cont=28;
 			var hz=0.05;
 
-	Out.kr(~controlBus1.index, (Osc.kr(~scale1.bufnum,hz*ml).abs));
-	Out.kr(~controlBus2.index, (Osc.kr(~scale2.bufnum,hz*ml).abs));
-	Out.kr(~controlBus3.index, (Osc.kr(~rotation.bufnum,hz*ml).abs));
+	//Out.kr(~controlBus1.index, (Osc.kr(~scale1.bufnum,hz*ml).abs));//animation envelope
+	//Out.kr(~controlBus2.index, (Osc.kr(~scale2.bufnum,hz*ml).abs));
+	//Out.kr(~controlBus3.index, (Osc.kr(~rotation.bufnum,hz*ml).abs));
+	Out.kr(~controlBus1.index, (In.kr(0).abs));///animation amp in as envelope
+	Out.kr(~controlBus2.index, (In.kr(1).abs));
+	Out.kr(~controlBus3.index, (In.kr(2).abs));
 	Out.kr(~controlBus4.index, (SinOsc.kr(cont,0).range(4500/2,5000/2)));
 	Out.kr(~controlBus5.index,  (SinOsc.kr(cont,0.5pi).range((pi/2).neg,(pi/2))));
 	//Out.kr(~controlBus7.index, (Osc.kr(~space.bufnum,hz).abs));
@@ -152,17 +155,23 @@ b.symbolSize = 2;
 b.symbolColor = Color.white;
 b.background = Color.clear;*/
 
+
   r= Routine({loop{
 
 //scale=5000/4;
 scale=~controlBus4.getSynchronous;
 mod_el=~controlBus5.getSynchronous;
 
+		///for use with signal envelope
+/*	scale1=~controlBus1.getSynchronous;
+	 scale2=~controlBus2.getSynchronous;
+	 rotation=~controlBus3.getSynchronous;*/
 
-///for use with envelope
-		// scale1=~controlBus1.getSynchronous;
-		// scale2=~controlBus2.getSynchronous;
-		// rotation=~controlBus3.getSynchronous;
+
+///for use with signal amp/// use three different animation routines,window,scatter plot, for three signals,_three reactor rings in tensor phase relation
+/*	scale1=~controlBus1.getSynchronous.linexp(0,2,1.1,1000.1);
+	 scale2=~controlBus1.getSynchronous.linexp(0,2,10000.1,1.1);
+	 rotation=~controlBus1.getSynchronous.linexp(0,2,0.01,~rad);*/
 
 
 ///for use with reactive sound
