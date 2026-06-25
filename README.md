@@ -14,4 +14,5 @@ wrapped to bounds in order to keep distribution in the reactor totroidal shape. 
 //temp variable is point cloud color and space variable is point cloud background color
 
 
-3d plotter folder includes an animation 3d plotter for plotting arrays of coordinate data, colouring and shaping via geodesic lines, ovals and rectangles. Plotter does not utilize quaternion logic, so if an animation is too complex and results to cymbal locks then incorporation of Quaternions in they code might be wanted. To that a Quaternion.scd file is included which when compiled to sc allow control of quaternion arguments via external ugens.
+3d plotter folder includes an animation 3d plotter for plotting arrays of coordinate data, colouring and shaping via geodesic lines, ovals and rectangles. 
+(Plotter does not utilize quaternion logic, but Cartesian, therfor if an animation is too complex and results to cymbal locks then incorporation of Quaternions in they code might be wanted. To that extend a Quaternion.scd file is included which when compiled to sc allow control of quaternion arguments via external ugens.)
