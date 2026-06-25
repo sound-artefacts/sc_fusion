@@ -137,7 +137,7 @@ var theta,phi ,wave;
 ~hz=Synth.new(\player).register;
 //~hz.set(\ml,0.1);
 data = [];
-Window.free;
+//Window.free;
 ~w = Window.new("3D Scatterplot", Rect(40,40, 1800, 1000)).front;
 
 ~v = UserView.new(~w,Rect(0,0,1800,1000)).background_(Color.black);
@@ -160,10 +160,10 @@ mod_el=~controlBus5.getSynchronous;
 
 
 ///for use with envelope
-
 scale1=~controlBus1.getSynchronous;
 scale2=~controlBus2.getSynchronous;
 rotation=~controlBus3.getSynchronous;
+
 
 ///for use with reactive sound
 /*scale1= ~distortion;
