@@ -9,3 +9,6 @@ installation and compilement of Mathlib Quark is requared for animation file to 
 ////on fusion file ~magxb, ~magyb, ~magzb instead of ~magx etc. intruduce bessel ripples to the spin. 
 r variable ntduces spherical harmonics. In the Routine plot data spherical function elevation and magnitude are 
 wrapped to bounds in orr to keep distributiion in the reactor totroidal shape. To make oter forms or set a sphere, remove this wrap or modulate it.
+
+
+//temp variable ia point cloud color and space variable is point cloud background color
