@@ -15,11 +15,35 @@
 
         x1 = x2;
         y1 = y2 * rotX.cos - z2 * rotX.sin;
-        z1 = y2 * rotX.sin + z2 * rotX.cos;*/
+        z1 = y2 * rotX.sin + z2 * rotX.cos;
+
+//rotation of distributin
+// X rotation
+point = Cartesian(
+    point.x,
+    point.y * rx.cos - point.z * rx.sin,
+    point.y * rx.sin + point.z * rx.cos
+);
+
+// Y rotation
+point = Cartesian(
+    point.x * ry.cos + point.z * ry.sin,
+    point.y,
+    point.x.neg * ry.sin + point.z * ry.cos
+);
+// Z rotation
+point = Cartesian(
+    point.x * rz.cos - point.y * rz.sin,
+    point.x * rz.sin + point.y * rz.cos,
+    point.z
+);
+
+
+*/
 
 
 //////example
-(
+/*(
 var w, u;
 
 var rotAz = 0.0;
@@ -106,97 +130,66 @@ Routine({
 
 }).play;
 
-)
+)*/
 /////////////////////////////////
 
 
 (
 var w, u;
+var r_az = 0.0,r_el = 0.0,az,el,px;
+var n=0,point,per,dist=400,mag,size=200;
+var rx = 0.0,ry = 0.0,rz = 0.0,d_o=1;
 
-var rotAz = 0.0;
-var rotEl = 0.0;
+w = Window("3d Plotter", Rect(100,100,600,600));
+v = UserView(w, w.view.bounds).background_(Color.black);
 
-var points;
+v.drawFunc = {
+Pen.translate(v.bounds.width/2,v.bounds.height/2);
+n=0;
 
-points = Array.fill(500, {
+(16*16).do {
+az=~az.[n];el=~el.[n];
+//mag=(Cartesian(~magx.[n],0,0).rho/(2.sqrt));
+mag=1;
+point = Spherical(size*mag,
+(az + r_az).wrap(pi.neg,pi),
+(el + r_el).wrap(0.5pi.neg,0.5pi)).asCartesian;
 
-    Spherical(
-        rrand(30.0,150.0),      // radius
-        rrand(-pi,pi),          // azimuth
-        rrand(-pi/2,pi/2)       // elevation
-    )
+// X rotation
+point = Cartesian(point.x,point.y,point.z).rotateYZ(rx);
+// Y rotation
+point = Cartesian(point.x,point.y,point.z).rotateXZ(ry);
+// Z rotation
+point = Cartesian(point.x,point.y,point.z).rotateXY(rz);
 
-});
-
-w = Window("Spherical Plotter", Rect(100,100,600,600));
-
-u = UserView(w, w.view.bounds)
-.background_(Color.black);
-
-u.drawFunc = {
-
-    var d = 500;
-
-    Pen.translate(
-        u.bounds.width/2,
-        u.bounds.height/2
-    );
-
-    points.do { |s|
-
-        var p;
-        var scale;
-
-        p = Spherical(
-            s.rho,
-            s.theta + rotAz,
-            (s.phi + rotEl).clip(
-                -pi/2,
-                pi/2
-            )
-        ).asCartesian;
-
-        scale = d / (d + p.z + 250);
-
-        Pen.fillColor =
-        Color.white.alpha_(
-            scale.clip(0.1,1.0)
-        );
-
-        Pen.fillOval(
-            Rect.aboutPoint(
-                Point(
-                    p.x * scale,
-                    p.y * scale
-                ),
-                3 * scale,
-                3 * scale
-            )
-        );
-
-    };
-
+n=n+1;
+///perspective
+per = dist / (dist + point.z + (dist/2));
+px=Polar(point.z,Complex(point.x,point.y).theta);
+//px=point;
+///color
+Pen.fillColor = Color.white.alpha_(per.clip(0.1,1.0));
+///object
+Pen.fillOval(Rect.aboutPoint(Point(px.x*per,px.y*per),d_o*per,d_o*per));
+};
 };
 
 w.front;
 
 Routine({
+inf.do {
+///points rotation animation
+r_az = r_az + 0;
+r_el = r_el + 0;
+///whole distribution rotation animation
+rx = 0.5pi;
+ry = ry + 0.1;
+rz = rz + 0.1;
+{v.refresh}.defer;
+(1/8).wait;
 
-    inf.do {
-
-        rotAz = rotAz + 0.01;
-        rotEl = rotEl + 0.002;
-
-        {
-            u.refresh
-        }.defer;
-
-        0.02.wait;
-
-    };
-
+};
 }).play;
-
 )
 ////generic distribution
 (
