@@ -9,10 +9,10 @@ s.options.blockSize = 64;
 s.options.maxNodes = 8192*2;
 Buffer.freeAll;
 Window.closeAll;
-s.makeGui(w);
+//s.makeGui(w);
 //s.meter;
 //s.freqscope;
-s.scope;
+/s.scope;
 );
 ~img_print = Image.open("/Users/rohifes/Documents/Literary/Portfolio/SUPERCOLLIDER/2026/synth/image1.jpg");///////////////paste image image1.jpg
 s.waitForBoot{
@@ -435,6 +435,7 @@ Pbind(\instrument, \synth,
 ~pattern.play;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////gui
+~rad=(pi-(pi/((1+5.sqrt)/2)));
 (
 {
 var size,sk,compass,n,scl,r,ssk=20,scope1,scope2,scope3,scope4,meter;
@@ -475,7 +476,7 @@ arg obj;
 var value;
 value=obj.value.linlin(0,1,(16256*4).neg,(16256*3)).round(1).asInteger.postln;
 ~drive=value;
-~distortion=obj.value.linlin(0,1,(16256*4).neg,(16256*3)).round(1).asInteger;
+~distortion=obj.value.linlin(0,1,1,1000);
 ~log.(value.asString);
 });
 );
@@ -526,8 +527,8 @@ arg obj;
 var value;
 value=obj.value.linexp(0,1,1/16,8).round(1/64).postln;
 TempoClock.default.tempo_(value);
-~run=obj.value.linexp(0,1,1/16,8).round(1/64);
-~c=obj.value.linlin(0,1,0,16256*3).round(1).asInteger.postln;
+~run=obj.value.linexp(0,1,~rad/128,~rad);
+~c=obj.value.linlinlinlin(0,1,16256*3,0).round(1).asInteger;
 ~log.(value.asString);
 });
 );
@@ -609,7 +610,7 @@ arg obj;
 var value;
 value=obj.value.linlin(0,1,1,16).postln;
 ~rect=value;
-~gate=obj.value.linlin(0,1,1,16);
+~gate=obj.value.linlin(0,1,10000,10);
 ~log.(value.asString);
 });
 )

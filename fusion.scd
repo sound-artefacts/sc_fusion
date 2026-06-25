@@ -8,6 +8,7 @@ s.options.blockSize = 128;
 s.options.maxNodes = 1024 * 2;
 s.makeGui;
 s.waitForBoot{
+	(
 //Buffer.freeAll;
 ~controlBus5 = Bus.control(s, 1);
 ~controlBus1 = Bus.control(s, 1);
@@ -82,8 +83,8 @@ SynthDef.new(\player,{
 	Out.kr(~controlBus1.index, (Osc.kr(~scale1.bufnum,hz*ml).abs));
 	Out.kr(~controlBus2.index, (Osc.kr(~scale2.bufnum,hz*ml).abs));
 	Out.kr(~controlBus3.index, (Osc.kr(~rotation.bufnum,hz*ml).abs));
-	Out.kr(~controlBus4.index, (SinOsc.kr(0.1,0).range(4800,5000)));
-	Out.kr(~controlBus5.index,  (SinOsc.kr(0.1,0.5pi).range((pi/4).neg,(pi/4))));
+	Out.kr(~controlBus4.index, (SinOsc.kr(0.1,0).range(4500,5000)));
+	Out.kr(~controlBus5.index,  (SinOsc.kr(0.1,0.5pi).range((pi/16).neg,(pi/16))));
 	//Out.kr(~controlBus7.index, (Osc.kr(~space.bufnum,hz).abs));
 
 
@@ -91,6 +92,12 @@ SynthDef.new(\player,{
 	);
 
 	~count=[10,2,2,2,2,2];
+	(
+~distortion=10;
+~gate=10000;
+~run=~rad/64;
+);
+	)
 }
 )
 
@@ -151,11 +158,14 @@ b.background = Color.clear;*/
 scale=~controlBus4.getSynchronous;
 mod_el=~controlBus5.getSynchronous;
 
+
+///for use with envelope
+
 scale1=~controlBus1.getSynchronous;
 scale2=~controlBus2.getSynchronous;
 rotation=~controlBus3.getSynchronous;
 
-		////for use with reactive sound
+///for use with reactive sound
 /*scale1= ~distortion;
 scale2= ~gate;
 rotation= ~run;*/
