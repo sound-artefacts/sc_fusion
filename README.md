@@ -1,6 +1,6 @@
 fusion file is fusion reactor animation illustration or other alteration of this concept along file code modification (other might be lake, cloud disk, galaxy, and other void harmonai fusions).
 reactive sound file is audio connection with synthf for animation sonification, foley, or sound visualization; depending on build.
-installation and compilement of Mathlib Quark (also install git) is requared for animation file to run, unless Mathlib objects written with functions
+installation and compilement of Mathlib Quark (also install git before) is requared for animation file to run, unless Mathlib objects written with functions
 
 
 ///////////on fusion file ~magxb, ~magyb, ~magzb instead of ~magx etc. introduce bessel ripples to the spin. 
